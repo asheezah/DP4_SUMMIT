@@ -28,27 +28,3 @@ if to_map:
     st.switch_page("pages/Map.py")
 elif to_map and data_to != None and data_from != None:
     st.switch_page("pages/Map.py")
-
-
-#OR USE PAGE NAVIGATION!!!
-
-##pages = {"Menu": [st.Page("Home.py", title = "🏠 Home"),
-##                  st.Page("pages/Map.py", title = "🚗 Map"),
-##                  st.Page("pages/Help.py", title = "⁉️ Help!")]}
-##pg = st.navigation(pages, position="sidebar")
-###pg.run()
-
-#So this is switch page, with buttons
-##with st.sidebar:
-##    home = st.button(":house: Home")
-##    Map = st.button(":red_car: Map")
-##    HELP = st.button(":question: Help!")
-##
-##    if home:
-##        st.switch_page("Home.py")
-##    if Map:
-##        st.switch_page("pages/Map.py")
-##    if HELP:
-##        st.switch_page("pages/Help.py")
-st.write("Lowkey I think this is working!!!")
-st.write("lowkey it works!!!")
