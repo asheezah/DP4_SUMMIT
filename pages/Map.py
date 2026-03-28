@@ -18,29 +18,36 @@ places = [{"name": "lot B1", "long":43.263110,"lat": -79.916789, "type": "parkin
           {"name": "centre", "long": 43.263407, "lat": -79.917609, "type": "centre"}]
 
 def backend_main():
+    st.title(":fast_forward: Welcome to the Map! :rewind:", text_alignment='center')
+    st.divider()
     outMUSC = make_map()
-    st.write("The current locations in the dictionary are: ")
-    for place in places:
-        st.markdown(f"-{place['name']}")
-
-    #customize icons and markers
+    select = []
     parking_image = 'pages/PARKING.png'
     elevator_image = 'pages/Elevator 2.png'
+    map_ready1 = False
+    map_ready2 = False
+    marker_data = []
+
+    #Intialize a session state
+    if 'selected_marker' not in st.session_state:
+        st.session_state['selected_marker'] = {"name": 'lot B1', "long":43.263110,"lat": -79.916789, "type": "parking"}
     
     parking_icon, centre_icon, elevator_icon = customize_icon(parking_image,elevator_image)
     custom_map = {"parking":{"icon": parking_icon},
               "elevator":{"icon": elevator_icon}, "centre":{"icon":centre_icon}}
 
-    org1 = st.columns(2)
-    location = org1[0].text_input("What is your current location?", key='location')
-    org1[1].space("small")
-    enter1 = org1[1].button("Enter", icon = '👍', key='button1')
-    found_loc = False
-    if enter1:
-        #location = input("What is your current location?: ")
-        #Check if current location in dictionary
+
+    for i in range(len(places)):
+        select.append(places[i]["name"])
+    location = st.selectbox("Select your **current** location:", select)
+    destination = st.selectbox("Select your **desired** destination:", select)
+
+    if location == destination:
+        st.write("Invalid, try again...")
+    else:
+        #Put Markers for the current location
         for place in places:
-            if place["name"] == location: #sorts through the dictionary to see if any names match
+            if place["name"] == location:
                 long1 = place.get("long")
                 lat1 = place.get("lat")
                 loc = [long1,lat1]
@@ -49,47 +56,29 @@ def backend_main():
                               popup = f"This is your location: {location}",
                               icon = folium.Icon(colour = "green")
                               ).add_to(outMUSC)
-                found_loc = True
-                break
-        if not found_loc:
-            st.write("Invalid input, reinput a location from the dictionary")
-        elif found_loc:
-            
-            #Now find the destination
-            org2 = st.columns(2)
-            destination = org2[0].text_input("What is your destination?", key='destination')
-            org2[1].space("small")
-            enter2 = org2[1].button("Enter", icon = '👍', key = 'button2')
-            found_des = False
-            if enter2:
-            #destination = input("What is your destination?: ")
-                for place in places:
-                    if place["name"] == destination:
-                        long2 = place.get("long")
-                        lat2 = place.get("lat")
-                        des = [long2,lat2]
-                        info = custom_map[place["type"]]
-                        icon = info["icon"]
-                        folium.Marker(location = des,
-                                      tooltip="Click me!",
-                                      popup = f"This is your destination: {destination}",
-                                      icon = icon).add_to(outMUSC)
-                    
-                        found_des = True
-                        break
-                if not found_des:
-                    st.write("Invalid input, reinput a location from the dictionary") 
-                elif found_des:
-                    st.write("Destination Found!")
-                    st.write("Check the map!")
+                map_ready1 = True
+            elif place["name"] == destination:
+                long2 = place.get("long")
+                lat2 = place.get("lat")
+                des = [long2,lat2]
+                info = custom_map[place["type"]]
+                icon = info["icon"]
+                folium.Marker(location = des,
+                              tooltip="Click me!",
+                              popup = f"This is your destination: {destination}",
+                              icon = icon).add_to(outMUSC)
+                map_ready2 = True
+        if map_ready1 and map_ready2:
+            st.write("Check the map!")
+            map_overlay(outMUSC) #adds map overlay picture
+            st_data = st_folium(outMUSC)
+            st.write(st_data)
 
-    map_overlay(outMUSC) #adds map overlay picture
-    #create_line(loc,des,outMUSC) #visually draws a path
-
-    outMUSC.save("test_map.html")
-    st_data = st_folium(outMUSC)
-    st.write(st_data)
-    #webbrowser.open_new("test_map.html") #opens the map file in your default browser
+##    map_overlay(outMUSC) #adds map overlay picture
+##    #create_line(loc,des,outMUSC) #visually draws a path
+##
+##    outMUSC.save("test_map.html")
+##    #webbrowser.open_new("test_map.html") #opens the map file in your default browser
 
 def make_map():
     outMUSC = folium.Map(location = (43.263407,-79.917609), zoom_start=19)
