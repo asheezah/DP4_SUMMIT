@@ -32,7 +32,7 @@ places = [{"name": "lot B1", "long":43.263110,"lat": -79.916789, "type": "parkin
           {"name":"elevator2", "long": 43.263735, "lat":-79.917796, "type": "elevator"},
           {"name": "elevator3", "long":43.263194, "lat": -79.917619, "type": "elevator"},
           {"name": "centre", "long": 43.263407, "lat": -79.917609, "type": "centre"},
-          {"name": "current location", "long": float(user_longitude), "lat": float(user_latitude), "type": "current"}]
+          {"name": "current location", "long": float(user_latitude), "lat": float(user_longitude), "type": "current"}]
 
 
 
