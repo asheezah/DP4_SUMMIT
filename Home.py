@@ -259,7 +259,7 @@ def weather_widget():
     with st.spinner("Getting Geolocation..."):
         user_latitude, user_longitude, index, error = get_geocoords()
         st.toast("Found Geolocation!")
-    
+        
     if error == False:
         while True:
             if index == 1:
