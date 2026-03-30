@@ -237,8 +237,24 @@ def weather_widget():
                 st.error(cond_risk)
             else:
                 st.success(cond_risk)
+
+    def get_geocoords():
+        user_location = get_geolocation()
+
+        if user_location and 'error' in user_location:
+            if user_location['error']['code'] == 1:
+                st.error("Couldn't get location, sorry")
+            else: st.warning(f"Geolocation error: {user_location['error']['message']}")
+        elif user_location:
+            user_latitude = user_location['coords']['latitude']
+            user_longitude = user_location['coords']['longitude']    
+        user_location_json = get_page_location()
+        return user_latitude, user_longitude
+
     ##Call functions and assign the multitude of variables    
-    celcius, conditions, next_hour_celcius, next_hour_conditions, change_in_celcius, change_in_conditons, rise_or_drop, city = setup_weather(lat, long)
+    user_latitude, user_longitude = get_geocoords()
+
+    celcius, conditions, next_hour_celcius, next_hour_conditions, change_in_celcius, change_in_conditons, rise_or_drop, city = setup_weather(str(user_latitude), str(user_longitude))
     trisk, crisk, temp_risk, cond_risk, next_hour_crisk  = risk_evaluation(celcius, conditions)
 
     with st.container(border=True):
@@ -291,24 +307,5 @@ def home_page():
     if feedback:
         give_feedback()
             
-
-
-# Returns user's location after asking for permission
-location = get_geolocation()
-
-# Check if location permission was denied
-if location and 'error' in location:
-    if location['error']['code'] == 1:
-        st.error("Location permission denied")
-    else:
-        st.warning(f"Geolocation error: {location['error']['message']}")
-elif location:
-    lat = location['coords']['latitude']
-    long = location['coords']['longitude']
-    st.write(f"Latitude: {location['coords']['latitude']}")
-    st.write(f"Longitude: {location['coords']['longitude']}")
-
-# The URL parts of the page
-location_json = get_page_location()
 
 home_page()
