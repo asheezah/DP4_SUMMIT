@@ -302,12 +302,12 @@ def home_page():
     st.sidebar.page_link("pages/Dr McDonald's Contact Info.py", label =
                          "Dr McDonald's Contact Info", icon = '💯')
     
-    # st.markdown("""
-    #     <style>
-    #         [data-testid="stCustomComponentV1 st-emotion-cache-1tvzk6f edxyb2x0"] {display: none;}
+    st.markdown("""
+        <style>
+            [data-testid="stCustomComponentV1 st-emotion-cache-1tvzk6f edxyb2x0"] {display: none;}
                 
-    #     </style>
-    # """, unsafe_allow_html=True)
+        </style>
+    """, unsafe_allow_html=True)
 # <div class="st-emotion-cache-8atqhb eol2nw90" style="
 #     width: 0px;
 #     height: 0px;
