@@ -2,6 +2,7 @@ import streamlit as st
 import smtplib
 import time
 import requests
+from streamlit_js_eval import get_geolocation, get_page_location
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from geopy.geocoders import Nominatim
@@ -291,3 +292,19 @@ def home_page():
         give_feedback()
             
 home_page()
+
+# Returns user's location after asking for permission
+location = get_geolocation()
+
+# Check if location permission was denied
+if location and 'error' in location:
+    if location['error']['code'] == 1:
+        st.error("Location permission denied")
+    else:
+        st.warning(f"Geolocation error: {location['error']['message']}")
+elif location:
+    st.write(f"Latitude: {location['coords']['latitude']}")
+    st.write(f"Longitude: {location['coords']['longitude']}")
+
+# The URL parts of the page
+location_json = get_page_location()
