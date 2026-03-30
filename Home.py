@@ -282,6 +282,7 @@ def home_page():
     st.markdown("""
         <style>
             [data-testid="stSidebarNav"] {display: none;}
+                
         </style>
     """, unsafe_allow_html=True)
 
@@ -300,6 +301,17 @@ def home_page():
     st.sidebar.page_link("pages/FAQs.py", label = "FAQs", icon = '❓')
     st.sidebar.page_link("pages/Dr McDonald's Contact Info.py", label =
                          "Dr McDonald's Contact Info", icon = '💯')
+    
+    st.markdown("""
+        <style>
+            [data-testid="st-emotion-cache-8atqhb eol2nw90"] {display: none;}
+                
+        </style>
+    """, unsafe_allow_html=True)
+# <div class="st-emotion-cache-8atqhb eol2nw90" style="
+#     width: 0px;
+#     height: 0px;
+# "><iframe class="stCustomComponentV1 st-emotion-cache-1tvzk6f edxyb2x0" data-testid="stCustomComponentV1" allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; clipboard-write; document-domain; encrypted-media; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; vr ; wake-lock; xr-spatial-tracking" src="https://dp4finalrepoonlyaddgoodstuff-5fqun4gr8seyha5vsvappzp.streamlit.app/~/+/component/streamlit_js_eval.streamlit_js_eval/index.html?streamlitUrl=https%3A%2F%2Fdp4finalrepoonlyaddgoodstuff-5fqun4gr8seyha5vsvappzp.streamlit.app%2F~%2F%2B%2F" width="-1" height="8" scrolling="no" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads" title="streamlit_js_eval.streamlit_js_eval"></iframe></div>
 
     weather_widget()
     #st.balloons()
