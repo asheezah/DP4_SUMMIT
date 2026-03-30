@@ -19,7 +19,6 @@ def get_geocoords():
         user_latitude = user_location['coords']['latitude']
         user_longitude = user_location['coords']['longitude']    
     user_location_json = get_page_location()
-    st.write(user_latitude, user_longitude)
     return user_latitude, user_longitude
 
 user_latitude, user_longitude = get_geocoords()
