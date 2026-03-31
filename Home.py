@@ -202,11 +202,6 @@ def weather_widget():
 
     ##Displays the Temperature
     def display_temp():
-            st.markdown("""
-                <style>
-                    [data-testid="st-emotion-cache-1vo6xi6"] {height: 0px;}
-                </style>
-                """, unsafe_allow_html=True)
             st.metric("Temperature", str(celcius)+" °C")
             ##If temp is rise or drop, check if its entering a dangerous range, if so, warn the user
             if rise_or_drop == "rise" or rise_or_drop == "drop":
