@@ -44,8 +44,6 @@ def give_feedback():
         
         return index
 
-
-
     subject = st.text_input("Subject", max_chars=100, placeholder="Begin Typing")
     body = st.text_area("Body", max_chars=500, placeholder="Begin Typing")
     ratings = [1,2,3,4,5]
@@ -123,8 +121,6 @@ def weather_widget():
         else:
             next_hour_conditons = str(query['forecast']['forecastday'][1]['hour'][1]['condition']['text']).strip()
             next_hour_celcius = query['forecast']['forecastday'][1]['hour'][1]['temp_c']
-
-
 
         ##Compute the difference in temperatues to see if there was a change
         change_in_celcius = round(next_hour_celcius - celcius,2)
@@ -251,18 +247,17 @@ def weather_widget():
             user_longitude_get = user_location['coords']['longitude']
             error = False
         user_location_json = get_page_location()
-        index = 1
         time.sleep(7)
-        return user_latitude_get, user_longitude_get, index, error
+        return user_latitude_get, user_longitude_get, error
 
     ##Call functions and assign the multitude of variables    
     with st.spinner("Getting Geolocation..."):
-        user_latitude, user_longitude, index, error = get_geocoords()
-        st.toast("Found Geolocation!")
+        user_latitude, user_longitude, error = get_geocoords()
+        st.toast("Found Geolocation!", icon="✅")
         
     if error == False:
         while True:
-            if index == 1:
+            if user_latitude and user_longitude != 0:
                 celcius, conditions, next_hour_celcius, next_hour_conditions, change_in_celcius, change_in_conditons, rise_or_drop, city = setup_weather(str(user_latitude), str(user_longitude))
                 trisk, crisk, temp_risk, cond_risk, next_hour_crisk  = risk_evaluation(celcius, conditions)
                 with st.container(border=True):
@@ -329,5 +324,4 @@ def home_page():
     if feedback:
         give_feedback()
             
-
 home_page()
