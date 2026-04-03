@@ -308,7 +308,12 @@ def home_page():
     
     weather_widget()
     #st.balloons()
-    
+    st.markdown("""
+        <style>
+            [data-testid="st-emotion-cache-1vo6xi6"] {display: none;}
+                
+        </style>
+    """, unsafe_allow_html=True)
     #Feedback Form
     st.space("xsmall")    
     feedback = st.button(":bar_chart: Looking to give feedback?", width = "stretch")
