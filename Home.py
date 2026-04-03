@@ -235,12 +235,7 @@ def weather():
 
     ##Displays the Conditions
     def display_cond():
-            st.markdown("""
-            <style>
-                [data-testid="st-emotion-cache-1tvzk6f"] {display: none;}
-                    
-            </style>
-            """, unsafe_allow_html=True)
+            
             ##Display the conditions
             st.markdown("Conditions")
             st.header(str(conditions))
@@ -329,6 +324,12 @@ def home_page():
     if to_map:
         st.switch_page("pages/Map.py")
     
+    st.markdown("""
+        <style>
+            [data-testid="stCustomComponentV1"]{display: none;}
+                
+        </style>
+    """, unsafe_allow_html=True)
     weather()
     #st.balloons()
 
