@@ -235,6 +235,12 @@ def weather():
 
     ##Displays the Conditions
     def display_cond():
+            st.markdown("""
+            <style>
+                [data-testid="st-emotion-cache-1tvzk6f"] {display: none;}
+                    
+            </style>
+            """, unsafe_allow_html=True)
             ##Display the conditions
             st.markdown("Conditions")
             st.header(str(conditions))
@@ -325,12 +331,7 @@ def home_page():
     
     weather()
     #st.balloons()
-    st.markdown("""
-        <style>
-            [data-testid="st-emotion-cache-1vo6xi6"] {display: none;}
-                
-        </style>
-    """, unsafe_allow_html=True)
+
     #Feedback Form
     st.space("xsmall")    
     feedback = st.button(":bar_chart: Looking to give feedback?", width = "stretch")
