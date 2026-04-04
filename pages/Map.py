@@ -301,7 +301,6 @@ def display_path(G, path, outMUSC, closest_location, image, destination, state, 
 def backend_main():
     st.title(":fast_forward: Welcome to the Map! :rewind:", text_alignment='center')
     st.divider()
-    weather_warning()
 
     #Coordinates hardcoded for testing purposes
     #user_coords = get_geocoords()
@@ -381,6 +380,11 @@ def backend_main():
                 [data-testid="stJson"] {display: none;}
 
                 </style>""", unsafe_allow_html = True)
+    st.markdown("""
+                <style>
+                [data-testid="stCustomComponentV1"] {display: none;}
+                </style>""", unsafe_allow_html = True)
+    weather_warning()
 
 sidebar()
 help_button()
