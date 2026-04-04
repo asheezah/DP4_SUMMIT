@@ -149,6 +149,7 @@ def weather():
 
     ##Displays the Temperature
     def display_temp():
+            st.title("Weather")
             st.markdown("Temperature") 
             st.header(str(celcius)+" °C")
             ##If temp is rise or drop, check if its entering a dangerous range, if so, warn the user
