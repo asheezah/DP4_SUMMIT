@@ -36,7 +36,7 @@ def help_button():
             with q1col1:
                 st.write('Or just click here: ')
             with q1col2:
-                st.page_link("pages/Weather.py",label=":blue[Map]")
+                st.page_link("pages/Map.py",label=":blue[Map]")
         with st.expander("I found a discrepancy on the map, can I report this?"):
             st.write("Yes (and please do)! To do this, pleae visit the (Map) page and select (Report Discrepancy).")
         st.subheader("Weather")
