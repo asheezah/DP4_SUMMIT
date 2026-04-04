@@ -469,6 +469,6 @@ user_latitude, user_longitude, error = get_geocoords_func()
 sidebar()
 help_button()
 backend_main()
-weather_warning(user_latitude, user_longitude, error)
 with st.popover("Report Discrepancy"):
     report(user_latitude, user_longitude, error)
+weather_warning(user_latitude, user_longitude, error)
