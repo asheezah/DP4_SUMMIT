@@ -3,6 +3,7 @@ import streamlit as st
 #import statements
 import time
 import requests
+import smtplib
 import folium
 import webbrowser
 import numpy
@@ -11,6 +12,9 @@ from streamlit_extras.floating_button import *
 from folium.raster_layers import ImageOverlay
 from streamlit_folium import st_folium
 from streamlit_js_eval import get_geolocation, get_page_location
+from streamlit_js_eval import get_geolocation, get_page_location, streamlit_js_eval
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import pandas as pd
 import networkx as nx
 
@@ -139,7 +143,107 @@ def weather_warning():
                 display_warning()
         else:
             st.error("Could Not Get Access to Geolocation, Weather Unavailable")
-   
+
+def report():
+    email = str(st.secrets['gmail'])
+    pswd = str(st.secrets['password'])
+    sender_email = email
+    sender_password = pswd
+    receiver_email = email
+
+    st.title("Report")
+
+    def get_geocoords():
+        user_location = get_geolocation()
+        error = False
+        user_latitude_get = 0
+        user_longitude_get = 0
+        if user_location and 'error' in user_location:
+            error = True
+        elif user_location:
+            user_latitude_get = user_location['coords']['latitude']
+            user_longitude_get = user_location['coords']['longitude']
+            error = False
+        user_location_json = get_page_location()
+        return user_latitude_get, user_longitude_get, error
+
+    def send_an_email(problem, affected, prob_body, affect_body, user_location):
+        index = 0
+
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = receiver_email
+        msg['Subject'] = "REPORT: Problem: " + problem + ", Affected: " + affected 
+
+        msg.attach(MIMEText("Problem: " + problem + "\n" + prob_body + "\n" + "Affected: " + affected + "\n" + affect_body + "\nLocation Reported: " + user_location, 'plain'))
+
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                text = msg.as_string()
+
+                server.sendmail(sender_email, receiver_email, text)
+                index = 1
+        except:
+            index = 2
+        
+        return index
+
+    user_latitude, user_longitude, error = get_geocoords()  
+    prob_body = ""
+    affect_body = ""
+
+    problem = st.selectbox(
+        "What is the issue?",
+        ("", "Broken/Blocked Location", "Missing Feature", "Other")
+    )
+    if problem == "Other":
+        prob_body = st.text_input("Please Expand:", max_chars=100, placeholder="Begin Typing")
+
+    affected = st.selectbox(
+        "What is affected?",
+        ("", "Elevator", "Stairs", "Ramp", "Food Location", "Other")
+    )
+    if affected == "Other":
+        affect_body = st.text_input("Please Expand:", max_chars=150, placeholder="Begin Typing")
+
+
+    if problem != "" and affected != "":
+        location = st.selectbox(
+            "Where is this?",
+            ("", "Current location", "Other")
+        )
+        if location == "Current location":
+            with st.spinner("Working on it..."): 
+                time.sleep(3)   
+                if error == False:
+                    if user_latitude and user_longitude != 0:
+                        user_location = "\nLatitude: " + str(user_latitude) + "\nLongitude: " + str(user_longitude)            
+                else:
+                    st.markdown(":red[Couldn't get current location]")
+                    location = "Other"
+        if location == "Other": 
+            user_location = st.text_input("Please describe the location:", max_chars=100, placeholder="Begin Typing")
+
+
+    if problem == "" or affected == "" or location == "" or user_location == "":
+        if st.button("Send Email"):
+            st.session_state.button = False
+            if problem == "" or affected == "":
+                st.toast("Please fill out required fields.")
+    else:
+        if st.button("Send Email"):
+            st.session_state.button = True
+            
+            test = send_an_email(problem, affected, prob_body, affect_body, user_location)
+            if test ==1:
+                st.toast("Email Recieved!", icon="✅")
+                streamlit_js_eval(js_expressions="parent.window.location.reload()")
+
+            else:
+                st.toast("Email Couldn't Send...")
+
 #1: GET GEOLOCATION
 def get_geocoords():
     user_location = get_geolocation()
@@ -382,6 +486,7 @@ def backend_main():
 
                 </style>""", unsafe_allow_html = True)
 
+report()
 sidebar()
 help_button()
 backend_main()
