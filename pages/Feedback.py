@@ -16,8 +16,8 @@ sender_password = pswd
 receiver_email = email
 
 def feedback():
+    st.title("Feedback")
     def send_an_email(subject, body, user_rating):
-        st.title("Feedback")
 
         index = 0
 
