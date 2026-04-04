@@ -149,7 +149,6 @@ def weather():
 
     ##Displays the Temperature
     def display_temp():
-            st.title("Weather")
             st.markdown("Temperature") 
             st.header(str(celcius)+" °C")
             ##If temp is rise or drop, check if its entering a dangerous range, if so, warn the user
@@ -197,6 +196,7 @@ def weather():
                         display_cond()
 
     ##Call functions and assign the multitude of variables
+    st.title("Weather")
     with st.spinner("Working on it..."): 
         time.sleep(0.5)
         user_latitude, user_longitude, error = get_geocoords_func()     
