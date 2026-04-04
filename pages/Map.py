@@ -20,7 +20,7 @@ import networkx as nx
 
 from functions import sidebar, help_button, get_geocoords_func
 
-def weather_warning(user_latitude, user_longitude, error):
+def weather_warning():
 
     ##Gets current time of users device
     def get_current_hour():
@@ -123,7 +123,7 @@ def weather_warning(user_latitude, user_longitude, error):
     ##Call functions and assign the multitude of variables
     with st.spinner("Getting Weather Data"): 
         time.sleep(0.5)
-        #user_latitude, user_longitude, error = get_geocoords_func()     
+        user_latitude, user_longitude, error = get_geocoords_func()     
         if error == False:
             if user_latitude and user_longitude != 0:
                 celcius, conditions, next_hour_celcius, next_hour_conditions = setup_weather(str(user_latitude), str(user_longitude))
@@ -132,7 +132,7 @@ def weather_warning(user_latitude, user_longitude, error):
         else:
             st.error("Could Not Get Access to Geolocation, Weather Unavailable")
 
-def report(user_latitude, user_longitude, error):
+def report():
     email = str(st.secrets['gmail'])
     pswd = str(st.secrets['password'])
     sender_email = email
@@ -164,7 +164,7 @@ def report(user_latitude, user_longitude, error):
         
         return index
 
-    #user_latitude, user_longitude, error = get_geocoords_func()  
+    user_latitude, user_longitude, error = get_geocoords_func()  
     prob_body = ""
     affect_body = ""
 
@@ -464,10 +464,10 @@ def backend_main():
                 </style>""", unsafe_allow_html = True)
     
 
-user_latitude, user_longitude, error = get_geocoords_func()
+#user_latitude, user_longitude, error = get_geocoords_func()
 sidebar()
 help_button()
 backend_main()
-weather_warning(user_latitude, user_longitude, error)
+weather_warning()
 with st.popover("Report Discrepancy"):
-    report(user_latitude, user_longitude, error)
+    report()

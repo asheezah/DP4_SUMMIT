@@ -209,6 +209,7 @@ def weather():
             
         else:
             st.error("Could Not Get Access to Geolocation, Weather Unavailable")
+            
 sidebar()
 help_button()
 weather()
