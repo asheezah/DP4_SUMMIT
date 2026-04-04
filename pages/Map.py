@@ -18,7 +18,7 @@ from email.mime.multipart import MIMEMultipart
 import pandas as pd
 import networkx as nx
 
-from functions import sidebar, help_button
+from functions import sidebar, help_button, get_geocoords_func
 
 def weather_warning():
 
@@ -109,19 +109,7 @@ def weather_warning():
                 
         return trisk, crisk
 
-    def get_geocoords():
-        user_location = get_geolocation()
-        error = False
-        user_latitude_get = 0
-        user_longitude_get = 0
-        if user_location and 'error' in user_location:
-            error = True
-        elif user_location:
-            user_latitude_get = user_location['coords']['latitude']
-            user_longitude_get = user_location['coords']['longitude']
-            error = False
-        user_location_json = get_page_location()
-        return user_latitude_get, user_longitude_get, error
+    
 
     def display_warning():
         if trisk > 0 or crisk == True:
@@ -135,7 +123,7 @@ def weather_warning():
     ##Call functions and assign the multitude of variables
     with st.spinner("Getting Weather Data"): 
         time.sleep(0.5)
-        user_latitude, user_longitude, error = get_geocoords()     
+        user_latitude, user_longitude, error = get_geocoords_func()     
         if error == False:
             if user_latitude and user_longitude != 0:
                 celcius, conditions, next_hour_celcius, next_hour_conditions = setup_weather(str(user_latitude), str(user_longitude))
@@ -176,7 +164,7 @@ def report():
         
         return index
 
-    user_latitude, user_longitude, error = get_geocoords()  
+    user_latitude, user_longitude, error = get_geocoords_func()  
     prob_body = ""
     affect_body = ""
 

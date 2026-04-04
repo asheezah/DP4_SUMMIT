@@ -63,3 +63,17 @@ def help_button():
         
     if floating_button(":question:"):
         button_dialog()
+
+def get_geocoords_func():
+        user_location = get_geolocation()
+        error = False
+        user_latitude_get = 0
+        user_longitude_get = 0
+        if user_location and 'error' in user_location:
+            error = True
+        elif user_location:
+            user_latitude_get = user_location['coords']['latitude']
+            user_longitude_get = user_location['coords']['longitude']
+            error = False
+        user_location_json = get_page_location()
+        return user_latitude_get, user_longitude_get, error
