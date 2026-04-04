@@ -197,6 +197,10 @@ def weather():
 
     ##Call functions and assign the multitude of variables
     st.title("Weather", text_alignment = "center")
+    st.markdown("""
+                <style>
+                    [data-testid="stCustomComponentV1"] {display:none;}
+                </style>""", unsafe_allow_html= True)
     with st.spinner("Working on it..."): 
         time.sleep(0.5)
         user_latitude, user_longitude, error = get_geocoords_func()     
