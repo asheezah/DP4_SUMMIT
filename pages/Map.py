@@ -1,15 +1,145 @@
 import streamlit as st
 
 #import statements
+import time
+import requests
 import folium
 import webbrowser
 import numpy
+from geopy.geocoders import Nominatim
+from streamlit_extras.floating_button import *
 from folium.raster_layers import ImageOverlay
 from streamlit_folium import st_folium
 from streamlit_js_eval import get_geolocation, get_page_location
 import pandas as pd
 import networkx as nx
 
+from functions import sidebar, help_button
+
+def weather_warning():
+
+    ##Gets current time of users device
+    def get_current_hour():
+        current_time = time.localtime()
+        current_hour = current_time[3]
+        return current_hour
+
+    ##Convert latitude and longitude to city
+    def get_city(latitude, longitude):
+        geolocate = Nominatim(user_agent="DP4_student_project")
+        coords = [latitude, longitude]
+        location = geolocate.reverse(coords)
+        full_geocode = location.raw['address']
+        ##Normally full_geocode teturns a VERY long string of location data
+        ##Needs to get just the city, town or county
+        for i in full_geocode:
+            if i == "city" or i == "town" or i == "county":
+                city_name = full_geocode[i]
+                for j in full_geocode:        
+                    if j == "state":
+                        area = full_geocode[j]
+                        city = str(city_name + ", " + area)
+                        break
+                    else:
+                        city = city_name
+                break      
+        return city
+
+    ##Set up Weather API
+    def setup_weather(latitude, longitude):
+        BASE_URL = "http://api.weatherapi.com/v1/forecast.json?"
+        key = str(st.secrets['weather_api'])
+        city = get_city(str(latitude), str(longitude))  
+
+        url = BASE_URL + "key=" + key + "&q=" + city + "&days=2"
+        query = requests.get(url).json()
+
+        #Get current temp and conditons
+        celcius = query['current']['temp_c']
+        conditions = str(query['current']['condition']['text']).strip()
+    
+        ##Get next hour temp and conditions
+        hour = get_current_hour()
+        if hour != 23:
+            next_hour_conditons = str(query['forecast']['forecastday'][0]['hour'][hour+1]['condition']['text']).strip()
+            next_hour_celcius = query['forecast']['forecastday'][0]['hour'][hour+1]['temp_c']
+            
+        else:
+            next_hour_conditons = str(query['forecast']['forecastday'][1]['hour'][1]['condition']['text']).strip()
+            next_hour_celcius = query['forecast']['forecastday'][1]['hour'][1]['temp_c']
+
+        ##Compute the difference in temperatues to see if there was a change
+
+        return celcius, conditions, next_hour_celcius, next_hour_conditons
+
+    ##Determine the risk levels of the temperatures and conditions
+    def risk_evaluation():
+        adjusted_conditions = str(conditions).split()
+        adjusted_next_hour_conditions = str(next_hour_conditions).split()
+
+        ##Temperature Risks: 4: Highest, 0: No Risk
+        trisk = 0
+        if celcius >= 30 or celcius <=-20 or next_hour_celcius >= 30 or next_hour_celcius <= -20:
+            trisk = 4
+        elif celcius >= 25 or celcius <= -7 or next_hour_celcius >= 25 or next_hour_celcius <= -7:
+            trisk = 3
+        elif celcius >=20 or celcius <= 0 or next_hour_celcius >= 20 or next_hour_celcius <= 0:
+            trisk = 2
+        elif celcius <= 5 or next_hour_celcius <= 5:
+            trisk = 1
+        
+        ##Condition Risk
+        crisk = False
+        dangerous_conditions = ["Thunderstorm", "thunderstorm", "Squall", "squal", "Freezing", "freezing", "Rain", "rain", "Snow", "snow", "Fog", "fog", "Drizzle", "drizzle"]
+        next_hour_crisk = False        
+        for i in adjusted_next_hour_conditions:
+            for j in dangerous_conditions:
+                if i == j:
+                    crisk = True
+                    break
+        for i in adjusted_conditions:
+            for j in dangerous_conditions:
+                if i == j:
+                    crisk = True
+                    break
+                
+        return trisk, crisk
+
+    def get_geocoords():
+        user_location = get_geolocation()
+        error = False
+        user_latitude_get = 0
+        user_longitude_get = 0
+        if user_location and 'error' in user_location:
+            error = True
+        elif user_location:
+            user_latitude_get = user_location['coords']['latitude']
+            user_longitude_get = user_location['coords']['longitude']
+            error = False
+        user_location_json = get_page_location()
+        return user_latitude_get, user_longitude_get, error
+
+    def display_warning():
+        if trisk > 0 or crisk == True:
+            with st.container(border=True):
+                st.header("⚠️")
+                st.error("Temperature and conditions outside are not ideal, outdoor naviagation may be unsafe")
+                if st.button("Click to see why", use_container_width=True, type='primary'):
+                    st.switch_page("pages/Weather.py")
+
+
+    ##Call functions and assign the multitude of variables
+    with st.spinner("Getting Weather Data"): 
+        time.sleep(0.5)
+        user_latitude, user_longitude, error = get_geocoords()     
+        if error == False:
+            if user_latitude and user_longitude != 0:
+                celcius, conditions, next_hour_celcius, next_hour_conditions = setup_weather(str(user_latitude), str(user_longitude))
+                trisk, crisk = risk_evaluation()
+                display_warning()
+        else:
+            st.error("Could Not Get Access to Geolocation, Weather Unavailable")
+   
 #1: GET GEOLOCATION
 def get_geocoords():
     user_location = get_geolocation()
@@ -251,5 +381,7 @@ def backend_main():
 
                 </style>""", unsafe_allow_html = True)
 
-
+sidebar()
+help_button()
+weather_warning()
 backend_main()
