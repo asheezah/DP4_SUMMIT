@@ -380,10 +380,10 @@ def backend_main():
                 [data-testid="stJson"] {display: none;}
 
                 </style>""", unsafe_allow_html = True)
-    # st.markdown("""
-    #             <style>
-    #             [data-testid="stElementContainer"] {display: none;}
-    #             </style>""", unsafe_allow_html = True)
+    st.markdown("""
+                <style>
+                <div class="stElementContainer element-container st-key-LOC st-emotion-cache-1vo6xi6 e1rw0b1u1"  {display: none;}
+                </style>""", unsafe_allow_html = True)
     weather_warning()
 
 sidebar()
