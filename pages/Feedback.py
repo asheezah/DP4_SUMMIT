@@ -76,4 +76,4 @@ if submitted:
 
 sidebar()
 help_button()
-send_an_email()
+send_an_email(subject, body, user_rating)
