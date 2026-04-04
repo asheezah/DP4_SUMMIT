@@ -196,7 +196,7 @@ def weather():
                         display_cond()
 
     ##Call functions and assign the multitude of variables
-    st.title("Weather")
+    st.title("Weather", text_alignment = "center")
     with st.spinner("Working on it..."): 
         time.sleep(0.5)
         user_latitude, user_longitude, error = get_geocoords_func()     
