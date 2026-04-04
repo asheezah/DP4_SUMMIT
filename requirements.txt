@@ -3,3 +3,4 @@ folium
 streamlit-folium
 geopy
 streamlit_js_eval
+networkx
