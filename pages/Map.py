@@ -466,11 +466,11 @@ def backend_main():
                 <style>
                 <div class="stElementContainer element-container st-key-LOC st-emotion-cache-1vo6xi6 e1rw0b1u1"  {display: none;}
                 </style>""", unsafe_allow_html = True)
-    weather_warning()
+    weather_warning(user_latitude, user_longitude, error)
 
 user_latitude, user_longitude, error = geocoords_load()
 sidebar()
 help_button()
-backend_main(user_latitude, user_longitude, error)
+backend_main()
 with st.popover("Report Discrepancy"):
     report(user_latitude, user_longitude, error)
