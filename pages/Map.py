@@ -27,7 +27,7 @@ def get_geocoords():
 #2: MAP
 def make_map():
     outMUSC = folium.Map(location = (43.263407,-79.917609), tiles="CartoDB Positron", zoom_start=20) #initalizes map, centred at MUSC
-    musc1 = 'MUSC.png'
+    musc1 = 'pages/MUSC.png'
     name = 'Floor Plan 1'
     bounds = [[43.263106,-79.918454],[43.263827,-79.917165]] #bounds for the floor map overlap
     folium.raster_layers.ImageOverlay(image = musc1, #overlays a floor map png onto the base map
@@ -88,19 +88,19 @@ def init_location(G, user_coords, outMUSC, state): #user_coords needs to be (lat
 #4A: DISPLAY
 def customize_image(destination): #matches custom folium icons to the key in the dictionary (type of location)
     if destination == 'elevator':
-        image = 'ELEVATOR.png'
+        image = 'pages/ELEVATOR.png'
     elif destination == 'stairs':
-        image = 'STAIRS.png'
+        image = 'pages/STAIRS.png'
     elif destination == 'exit':
-        image = 'EXIT.png'
+        image = 'pages/EXIT.png'
     elif destination == 'parking':
-        image = 'PARKING.png'
+        image = 'pages/PARKING.png'
     elif destination == 'washroom':
-        image = 'WASHROOM.png'
+        image = 'pages/WASHROOM.png'
     elif destination == 'ramp':
-        image = 'RAMP.png'
+        image = 'pages/RAMP.png'
     elif destination == 'food':
-        image = 'FOOD.png'
+        image = 'pages/FOOD.png'
     return image #returns the specific png, so that it can be called inputted later 
 
 def customize_icon(image): #defines custom icon
