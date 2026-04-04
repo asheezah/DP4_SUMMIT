@@ -214,7 +214,7 @@ def report(user_latitude, user_longitude, error):
             test = send_an_email(problem, affected, prob_body, affect_body, user_location)
             if test ==1:
                 st.toast("Email Recieved!", icon="✅")
-                time.sleep(2.5)
+                time.sleep(1.5)
                 streamlit_js_eval(js_expressions="parent.window.location.reload()")
 
             else:
