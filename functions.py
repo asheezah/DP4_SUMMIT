@@ -23,7 +23,7 @@ def sidebar():
     st.sidebar.page_link("pages/Map.py", label = "Map")
     st.sidebar.page_link("pages/About Us.py", label = "About Us")
     st.sidebar.page_link("pages/Weather.py", label = "Weather")
-    st.sidebar.page_link("pages/Dr McDonald's Contact Info.py")
+    st.sidebar.page_link("pages/Dr McDonald's Contact Info.py", label = "Get In Touch!")
     st.sidebar.divider()
     st.sidebar.page_link("pages/Feedback.py", label = "Give us Feedback")
 
