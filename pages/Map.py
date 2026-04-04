@@ -476,8 +476,9 @@ def backend_main():
                 </style>""", unsafe_allow_html = True)
     weather_warning()
 
-if st.popover("Report Discrepancy"):
-    report()
+
 sidebar()
 help_button()
 backend_main()
+with st.popover("Report Discrepancy"):
+    report()
