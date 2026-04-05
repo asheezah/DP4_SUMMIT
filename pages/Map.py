@@ -351,7 +351,7 @@ def find_closest_node(G, user_node_name): #pulls coordinates from nx graph, then
 
 def find_shortest_path(G, user_node_name, destination, heuristic, places): #returns shortest path out of specified type (ex. elevator)
     best_path = float('inf')
-    st.write(list(G.neighbors(user_node_name))
+    st.write(list(G.neighbors(user_node_name)))
     for des in places[destination]: #places['destination'] opens list of all ex. elevators, des = elevator1, etc
         target_name = des['name'].lower()
         possible_path = nx.astar_path_length(G, user_node_name, target_name, heuristic = heuristic, weight = 'weight')
