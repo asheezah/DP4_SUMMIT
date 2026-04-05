@@ -31,7 +31,7 @@ def weather_warning(user_latitude, user_longitude, error):
 
     ##Convert latitude and longitude to city
     def get_city(latitude, longitude):
-        geolocate = Nominatim(user_agent="DP4_student_project")
+        geolocate = Nominatim(user_agent="student_project")
         coords = [latitude, longitude]
         location = geolocate.reverse(coords)
         full_geocode = location.raw['address']
