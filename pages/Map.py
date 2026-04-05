@@ -297,19 +297,19 @@ def init_location(G, user_coords, outMUSC, state): #user_coords needs to be (lat
 
 #4A: DISPLAY
 def customize_image(destination): #matches custom folium icons to the key in the dictionary (type of location)
-    if destination == 'elevator':
+    if destination == 'Elevator':
         image = 'pages/ELEVATOR.png'
-    elif destination == 'stairs':
+    elif destination == 'Stairs':
         image = 'pages/STAIRS.png'
     elif destination == 'exit':
         image = 'pages/EXIT.png'
-    elif destination == 'parking':
+    elif destination == 'Parking':
         image = 'pages/PARKING.png'
-    elif destination == 'washroom':
+    elif destination == 'Washroom':
         image = 'pages/WASHROOM.png'
-    elif destination == 'ramp':
+    elif destination == 'Ramp':
         image = 'pages/RAMP.png'
-    elif destination == 'food':
+    elif destination == 'Food':
         image = 'pages/FOOD.png'
     return image #returns the specific png, so that it can be called inputted later 
 
