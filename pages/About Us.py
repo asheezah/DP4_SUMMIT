@@ -5,9 +5,9 @@ from functions import sidebar, help_button
 
 def about_us():
     ##Create descriptions of the team
-    st.title("Meet the Team")
+    st.title("Meet The Team")
     st.divider()
-    st.image('pages/Meet the Team.png')
+    st.image('pages/Meet The Team.png')
 
 sidebar()
 help_button()
