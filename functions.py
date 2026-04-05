@@ -18,7 +18,7 @@ def sidebar():
         </style>
     """, unsafe_allow_html=True)
 
-    st.logo("pages/Summit_Logo.png", size="large", icon_image="pages/Summit_Logo.png")
+    st.logo("pages/summit.png", size="large", icon_image="pages/summit.png")
     st.sidebar.page_link("Home.py", label = "Home")
     st.sidebar.page_link("pages/Map.py", label = "Map")
     st.sidebar.page_link("pages/About Us.py", label = "About Us")
