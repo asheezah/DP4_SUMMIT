@@ -26,7 +26,7 @@ def home():
     st.divider()
     to_map = st.button("Go to the Map!", use_container_width=True)
     if to_map:
-        st.swtich_page("pages/Map.py")
+        st.switch_page("pages/Map.py")
     help_button()
 
 home()
