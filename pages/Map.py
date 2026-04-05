@@ -355,7 +355,7 @@ def find_shortest_path(G, user_node_name, destination, heuristic, places): #retu
         st.write(comp)
     st.write(list(G.neighbors(user_node_name)))
     for des in places[destination]: #places['destination'] opens list of all ex. elevators, des = elevator1, etc
-        target_name = des['name'].lower()
+        target_name = des['name']
         possible_path = nx.astar_path_length(G, user_node_name, target_name, heuristic = heuristic, weight = 'weight')
         if possible_path < best_path:
             best_path = possible_path
