@@ -6,6 +6,7 @@ import requests
 import smtplib
 import folium
 import webbrowser
+import numpy
 from geopy.geocoders import Nominatim
 from streamlit_extras.floating_button import *
 from folium.raster_layers import ImageOverlay
