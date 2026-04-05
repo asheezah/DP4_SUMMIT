@@ -20,7 +20,7 @@ import networkx as nx
 
 from functions import sidebar, help_button, get_geocoords_func
 
-
+##Will display visual warning if current hour or next hour has any dangerous weather
 def weather_warning(user_latitude, user_longitude, error):
 
     ##Gets current time of users device
@@ -107,16 +107,16 @@ def weather_warning(user_latitude, user_longitude, error):
                 if i == j:
                     crisk = True
                     break
-                
         return trisk, crisk
 
     
-
+    ##If a dangerous temp or condition is present, warning will display
     def display_warning():
         if trisk > 0 or crisk == True:
             with st.container(border=True):
                 st.header("⚠️")
                 st.error("Temperature and conditions outside are not ideal, outdoor naviagation may be unsafe")
+                ##Give user option to swap to weather page to see whats wrong
                 if st.button("Click to see why", use_container_width=True, type='primary'):
                     st.switch_page("pages/Weather.py")
 
@@ -133,7 +133,9 @@ def weather_warning(user_latitude, user_longitude, error):
         else:
             st.error("Could Not Get Access to Geolocation, Weather Unavailable")
 
+##Provide user the opportunity to report discrepencies on the map
 def report(user_latitude, user_longitude, error):
+    ##Streamlit secrets to hide valuable information
     email = str(st.secrets['gmail'])
     pswd = str(st.secrets['password'])
     sender_email = email
@@ -141,7 +143,7 @@ def report(user_latitude, user_longitude, error):
     receiver_email = email
 
     st.title("Report")
-
+    ##Call very similar function to feedback email function
     def send_an_email(problem, affected, prob_body, affect_body, user_location):
         index = 0
 
@@ -168,40 +170,43 @@ def report(user_latitude, user_longitude, error):
     #user_latitude, user_longitude, error = get_geocoords_func()  
     prob_body = ""
     affect_body = ""
-
+    ##Allow the user to define the problem
     problem = st.selectbox(
         "What is the issue?",
         ("", "Broken/Blocked Location", "Missing Feature", "Other")
     )
+    ##If user selects other, provide the option to expand
     if problem == "Other":
         prob_body = st.text_input("Please Expand:", max_chars=100, placeholder="Begin Typing")
-
+    ##Allow the user to define what is affected
     affected = st.selectbox(
         "What is affected?",
         ("", "Elevator", "Stairs", "Ramp", "Food Location", "Other")
     )
+    ##If user selects other, provide the option to expand
     if affected == "Other":
         affect_body = st.text_input("Please Expand:", max_chars=150, placeholder="Begin Typing")
-
-
+    ##If problem and effected have inputs, open the opportunity to attach a location, either current or other, which lets the user type their location
     if problem != "" and affected != "":
         location = st.selectbox(
             "Where is this?",
             ("", "Current location", "Other")
         )
+        ##Show loading wheel to express to the user that geolocation is being collected
         if location == "Current location":
             with st.spinner("Working on it..."): 
                 time.sleep(3)   
                 if error == False:
                     if user_latitude and user_longitude != 0:
                         user_location = "\nLatitude: " + str(user_latitude) + "\nLongitude: " + str(user_longitude)            
+                ##If geolocation could not be found, display this to the user
                 else:
                     st.markdown(":red[Couldn't get current location]")
                     location = "Other"
         if location == "Other": 
             user_location = st.text_input("Please describe the location:", max_chars=100, placeholder="Begin Typing")
 
-
+    ##Ensures no empty emails are send
     if problem == "" or affected == "" or location == "" or user_location == "":
         if st.button("Send Email"):
             st.session_state.button = False
@@ -211,12 +216,12 @@ def report(user_latitude, user_longitude, error):
         if st.button("Send Email"):
             st.session_state.button = True
             
-            test = send_an_email(problem, affected, prob_body, affect_body, user_location)
-            if test ==1:
+            index = send_an_email(problem, affected, prob_body, affect_body, user_location)
+            if index ==1:
                 st.toast("Email Recieved!", icon="✅")
                 time.sleep(1.5)
+                ##Reload the page to reset the report form
                 streamlit_js_eval(js_expressions="parent.window.location.reload()")
-
             else:
                 st.toast("Email Couldn't Send...")
 

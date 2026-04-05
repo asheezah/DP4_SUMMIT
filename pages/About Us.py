@@ -3,8 +3,8 @@ from PIL import Image
 from streamlit_extras.floating_button import *
 from functions import sidebar, help_button
 
-
 def about_us():
+    ##Create descriptions of the team
     st.title("Meet the Team")
     st.divider()
     st.image('pages/rotate.png', caption = "From left to right: Emily, Aisha, Erik, and Noah.")
@@ -17,8 +17,9 @@ def about_us():
                         Emily: going into Level II iBioMed, specialization: not software, fun fact: She likes green trees.  
                         Aisha: going into Level II iBioMed, specialization: not software, fun fact: She also likes green trees, but she's allergic to them.  
                         **If you want to contact us, go check out Dr McDonald's contact info.**""")
-    
+##Display sidebar and help button   
 sidebar()
 help_button()
+##Displays the about us section previously defined.
 about_us()
 

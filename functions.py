@@ -9,7 +9,7 @@ from geopy.geocoders import Nominatim
 from streamlit_extras.floating_button import *
 from streamlit_extras.stoggle import *
 
-
+##Define the sidebar function thaat will be called in every page
 def sidebar():
     st.markdown("""
         <style>
@@ -27,6 +27,7 @@ def sidebar():
     st.sidebar.divider()
     st.sidebar.page_link("pages/Feedback.py", label = "Give us Feedback")
 
+##Define the help button function that will also be called in every page
 def help_button():
     @st.dialog("Support", width="large")
     def button_dialog() -> None:
@@ -61,20 +62,28 @@ def help_button():
                 st.write('Read more here: ')
             with q3col2:
                 st.page_link("pages/About Us.py",label=":blue[About Us]")
-        
+    
+    ##Uses streamlit extras to make a button that permanents sits at the bottom right of screen
     if floating_button(":question:"):
         button_dialog()
 
+##Gets user coordinates (Can be called on pages that need it)
 def get_geocoords_func():
+        ##Gets location
         user_location = get_geolocation()
+        ##The library being used to get geolocation completes before actually getting coords
+        ##Variable error will ensure that future functions are not called out of turn.
         error = False
+        ##To ensure there are no errors, define lat and long as 0 (placeholder)
         user_latitude_get = 0
         user_longitude_get = 0
         if user_location and 'error' in user_location:
             error = True
+        ##If user location is found get lat and long and assign them
         elif user_location:
             user_latitude_get = user_location['coords']['latitude']
             user_longitude_get = user_location['coords']['longitude']
             error = False
+        ##Browser location
         user_location_json = get_page_location()
         return user_latitude_get, user_longitude_get, error
