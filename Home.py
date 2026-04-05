@@ -10,14 +10,14 @@ from streamlit_extras.floating_button import *
 from streamlit_extras.stoggle import *
 from functions import sidebar, help_button
 
-st.set_page_config(initial_sidebar_state="expanded", page_title="Maccessible")
+st.set_page_config(initial_sidebar_state="expanded", page_title="Summit")
 
 def home():
     #Remove the extra page things at the top that are unnecessary and
     #unfortunately don't have emojis
     sidebar()
 
-    st.image('pages/longlogomac.png')
+    st.image('pages/Summit_Logo.png')
     st.divider()
     st.markdown("""
             <h2 style = "text-align: center; color: maroon;">The future of accessible navigation, <br> at the click of a button.</h2>
