@@ -388,8 +388,8 @@ def backend_main():
     st.divider()
 
     #Coordinates hardcoded for testing purposes
-    #user_coords = get_geocoords()
-    user_coords = [43.263407,-79.917609]
+    user_coords = get_geocoords()
+    #user_coords = [43.263407,-79.917609]
 
     #Intialize a session state for markers so that they appear on map across reruns
     #initialize a session state for the polyline (pathfinding) route so that it appears across reruns
