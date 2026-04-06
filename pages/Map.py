@@ -380,11 +380,15 @@ def display_path(G, path, outMUSC, closest_location, image, destination, state, 
                   ))
 
 
-def backend_main(user_lat, user_long):
+def backend_main(user_lat, user_long, error):
     st.title(":fast_forward: Welcome to the Map! :rewind:", text_alignment='center')
     st.divider()
 
-    user_coords = [user_long, user_lat]
+    if error == False:
+        user_coords = [user_long, user_lat]
+    if error == True:
+        user_coords = [43.263407, -79.917609]
+        st.toast("Could not get geolocation, preset applied", icon = "🚨")
 
     #Intialize a session state for markers so that they appear on map across reruns
     #initialize a session state for the polyline (pathfinding) route so that it appears across reruns
@@ -464,12 +468,14 @@ def backend_main(user_lat, user_long):
                 <style>
                 <div class="stElementContainer element-container st-key-LOC st-emotion-cache-1vo6xi6 e1rw0b1u1"  {display: none;}
                 </style>""", unsafe_allow_html = True)
-    
 
-user_latitude, user_longitude, error = get_geocoords_func()
+def map_page():
+    user_latitude, user_longitude, error = get_geocoords_func()
+    backend_main(user_latitude, user_longitude, error)
+    with st.popover("Report Discrepancy", use_container_width=True):
+        report(user_latitude, user_longitude, error)
+    weather_warning(user_latitude, user_longitude, error)
+
 sidebar()
 help_button()
-backend_main(user_latitude, user_longitude)
-with st.popover("Report Discrepancy", use_container_width=True):
-    report(user_latitude, user_longitude, error)
-weather_warning(user_latitude, user_longitude, error)
+map_page()
