@@ -7,7 +7,7 @@ def about_us():
     ##Create description of the team
     st.title("Meet The Team")
     st.divider()
-    st.image('pages/About Us (2).png')
+    st.image('pages/AboutUs!.png')
 
 sidebar()
 help_button()
