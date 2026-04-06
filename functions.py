@@ -30,9 +30,9 @@ def sidebar():
 ##Define the help button function that will also be called in every page
 def help_button():
     @st.dialog("Support", width="large")
-    def button_dialog() -> None:
+    def button_dialog() -> None: #Dialog is a special pop up
         st.subheader("Map")
-        with st.expander("How do I view the map?"):
+        with st.expander("How do I view the map?"): #Expander is a dropdown box
             st.write("To view the map, click on the arrow (>) on the top left of your screen. Then select (Map)")
             q1col1, q1col2 = st.columns([1,3])
             with q1col1:
@@ -47,7 +47,7 @@ def help_button():
             st.markdown(":green[Green text indicates that temperature or weather is entering or remaining in a safe range.]")
             st.markdown(":red[Red text indicates that temperature or weather is entering or remaining in a dangerous range.]")
         st.subheader("Feedback")
-        with st.expander("I want to provide feedback for Maccessible, how should I do this?"):
+        with st.expander("I want to provide feedback for Summit, how should I do this?"):
             st.write("We gratefully appreciate all feedback! To tell us how were doing, click on the arrow (>) on the top left of your screen, then select (Feedback)")
             q2col1, q2col2 = st.columns([1,3])
             with q2col1:
