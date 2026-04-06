@@ -6,12 +6,9 @@ import requests
 import smtplib
 import folium
 import webbrowser
-import numpy
 from geopy.geocoders import Nominatim
 from streamlit_extras.floating_button import *
-from folium.raster_layers import ImageOverlay
 from streamlit_folium import st_folium
-from streamlit_js_eval import get_geolocation, get_page_location
 from streamlit_js_eval import get_geolocation, get_page_location, streamlit_js_eval
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -226,17 +223,17 @@ def report(user_latitude, user_longitude, error):
                 st.toast("Email Couldn't Send...")
 
 #1: GET GEOLOCATION
-def get_geocoords():
-    user_location = get_geolocation()
-    if user_location and 'error' in user_location:
-        if user_location['error']['code'] == 1:
-            st.error("Couldn't get location, sorry")
-        else: st.warning(f"Geolocation error: {user_location['error']['message']}")
-    elif user_location:
-        user_latitude = user_location['coords']['latitude']
-        user_longitude = user_location['coords']['longitude']    
-    user_location_json = get_page_location()
-    return (user_latitude, user_longitude)
+# def get_geocoords():
+#     user_location = get_geolocation()
+#     if user_location and 'error' in user_location:
+#         if user_location['error']['code'] == 1:
+#             st.error("Couldn't get location, sorry")
+#         else: st.warning(f"Geolocation error: {user_location['error']['message']}")
+#     elif user_location:
+#         user_latitude = user_location['coords']['latitude']
+#         user_longitude = user_location['coords']['longitude']    
+#     user_location_json = get_page_location()
+#     return (user_latitude, user_longitude)
 
 
 #2: MAP
@@ -383,13 +380,13 @@ def display_path(G, path, outMUSC, closest_location, image, destination, state, 
                   ))
 
 
-def backend_main():
+def backend_main(user_lat, user_long):
     st.title(":fast_forward: Welcome to the Map! :rewind:", text_alignment='center')
     st.divider()
 
     #Coordinates hardcoded for testing purposes
-    user_coords = get_geocoords()
-    #user_coords = [43.263407,-79.917609]
+    
+    user_coords = [user_lat, user_long]
 
     #Intialize a session state for markers so that they appear on map across reruns
     #initialize a session state for the polyline (pathfinding) route so that it appears across reruns
@@ -474,7 +471,7 @@ def backend_main():
 user_latitude, user_longitude, error = get_geocoords_func()
 sidebar()
 help_button()
-backend_main()
+backend_main(user_latitude, user_longitude)
 with st.popover("Report Discrepancy", use_container_width=True):
     report(user_latitude, user_longitude, error)
 weather_warning(user_latitude, user_longitude, error)
