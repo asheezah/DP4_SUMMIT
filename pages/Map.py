@@ -384,8 +384,6 @@ def backend_main(user_lat, user_long):
     st.title(":fast_forward: Welcome to the Map! :rewind:", text_alignment='center')
     st.divider()
 
-    #Coordinates hardcoded for testing purposes
-    
     user_coords = [user_long, user_lat]
 
     #Intialize a session state for markers so that they appear on map across reruns
